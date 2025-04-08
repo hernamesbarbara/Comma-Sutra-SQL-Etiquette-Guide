@@ -1,0 +1,69 @@
+[sqlfluff]
+dialect = postgres
+indent_unit = space
+tab_space_size = 4
+max_line_length = 120
+
+# ------------------------------------------------------------------------------
+# LAYOUT & INDENTATION
+# ------------------------------------------------------------------------------
+# Enforce commas at the *start* of lines.
+[sqlfluff:layout:type:comma]
+line_position = leading
+
+# ------------------------------------------------------------------------------
+# CAPITALIZATION
+# ------------------------------------------------------------------------------
+# Keywords (SELECT, FROM, WHERE, JOIN...) in UPPERCASE.
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = upper
+
+# Booleans (TRUE, FALSE) & NULL in UPPERCASE.
+[sqlfluff:rules:capitalisation.literals]
+capitalisation_policy = upper
+
+# Data types (INT, TIMESTAMPTZ, SERIAL, etc.) in UPPERCASE.
+[sqlfluff:rules:capitalisation.types]
+extended_capitalisation_policy = upper
+
+# Identifiers (table/column names) in snake_case lowercase.
+[sqlfluff:rules:capitalisation.identifiers]
+extended_capitalisation_policy = lower
+unquoted_identifiers_policy = all
+
+# Functions (COALESCE, SUM, NOW, etc.) in UPPERCASE.
+[sqlfluff:rules:capitalisation.functions]
+extended_capitalisation_policy = upper
+
+# ------------------------------------------------------------------------------
+# TRAILING COMMAS
+# ------------------------------------------------------------------------------
+# Forbid trailing commas in SELECT lists.
+[sqlfluff:rules:convention.select_trailing_comma]
+select_clause_trailing_comma = forbid
+
+# ------------------------------------------------------------------------------
+# ALIASING
+# ------------------------------------------------------------------------------
+# Require explicit `AS` for table aliases.
+[sqlfluff:rules:aliasing.table]
+aliasing = explicit
+
+# Require explicit `AS` for column aliases.
+[sqlfluff:rules:aliasing.column]
+aliasing = explicit
+
+# ------------------------------------------------------------------------------
+# REFERENCES & IDENTIFIERS
+# ------------------------------------------------------------------------------
+# Remove unnecessary quoted identifiers, preserve case if truly needed,
+# but prefer unquoted whenever possible.
+[sqlfluff:rules:references.quoting]
+prefer_quoted_identifiers = False
+case_sensitive = True
+
+# In single-table queries, do not require foo.id, just id is fine.
+# In multi-table queries, references must be qualified.
+[sqlfluff:rules:references.consistent]
+force_enable = True
+single_table_references = unqualified
